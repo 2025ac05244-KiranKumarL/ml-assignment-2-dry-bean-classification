@@ -1,0 +1,13 @@
+IMPORTANT ASSIGNMENT NOTE
+
+The provided assignment PDF says "all 6 ML models", but it explicitly names only:
+1. Logistic Regression
+2. Decision Tree
+3. K-Nearest Neighbor
+4. Naive Bayes
+5. Random Forest
+
+The comparison table in the PDF also has only these five models.
+
+This package implements those five explicitly named models.
+Do not invent a sixth required model unless the instructor officially clarifies it.
