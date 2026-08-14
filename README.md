@@ -1,195 +1,353 @@
-# Dry Bean Classification - Machine Learning Assignment 2
+# Dry Bean Classification — Machine Learning Assignment 2
 
-## Problem Statement
+## 1. Problem Statement
 
-The objective of this project is to classify dry bean grains into their bean
-varieties using morphological measurements extracted from bean images.
+The objective of this project is to build and evaluate multiple machine learning classification models for identifying different varieties of dry beans based on their morphological characteristics.
 
-The project trains multiple machine-learning classification models and provides
-an interactive Streamlit application for evaluating the trained models on test
-data.
+The project also provides an interactive Streamlit web application where test data can be uploaded, different trained models can be selected, predictions can be generated, and evaluation metrics can be viewed.
 
-## Dataset Description
+---
 
-Dataset: Dry Bean Dataset  
-Source: UCI Machine Learning Repository  
-UCI Dataset ID: 602
+## 2. Dataset Description
 
-The project expects the Dry Bean dataset containing 16 input features and the
-target column `Class`.
+**Dataset:** Dry Bean Dataset
+**Source:** UCI Machine Learning Repository
+**Problem Type:** Multiclass Classification
 
-The training script first checks for:
+The dataset contains:
 
-- `data/Dry_Bean_Dataset.csv`
-- `data/Dry_Bean_Dataset.xlsx`
+* **13,611 instances**
+* **16 input features**
+* **7 bean classes**
+* **Target column:** `Class`
 
-If neither file exists, it attempts to fetch UCI dataset ID 602 through the
-`ucimlrepo` package and stores a CSV copy inside the `data/` folder.
+### Bean Classes
 
-## Models Used
+1. BARBUNYA
+2. BOMBAY
+3. CALI
+4. DERMASON
+5. HOROZ
+6. SEKER
+7. SIRA
 
-The assignment PDF explicitly names the following five models:
+### Input Features
+
+The dataset contains the following 16 numerical features:
+
+* Area
+* Perimeter
+* MajorAxisLength
+* MinorAxisLength
+* AspectRation
+* Eccentricity
+* ConvexArea
+* EquivDiameter
+* Extent
+* Solidity
+* roundness
+* Compactness
+* ShapeFactor1
+* ShapeFactor2
+* ShapeFactor3
+* ShapeFactor4
+
+---
+
+## 3. GitHub Repository Link
+
+**GitHub Repository:**
+
+https://github.com/2025ac05244-KiranKumarL/ml-assignment-2-dry-bean-classification
+
+---
+
+## 4. Live Streamlit Application
+
+**Streamlit Application:**
+
+https://ml-assignment-2-dry-bean-classification-c66mk3zrpsb8uutdzs8urk.streamlit.app/
+
+The deployed application allows users to:
+
+* Upload test data in CSV format
+* Select a machine learning model
+* Generate predictions
+* View evaluation metrics
+* View a confusion matrix
+* View a classification report
+* Compare all trained models
+* Download prediction results
+
+---
+
+## 5. Machine Learning Models Used
+
+The following classification models were implemented on the same Dry Bean dataset:
 
 1. Logistic Regression
 2. Decision Tree Classifier
 3. K-Nearest Neighbors (kNN)
 4. Gaussian Naive Bayes
-5. Random Forest (Ensemble)
+5. Random Forest Classifier
 
-> Note: The assignment text also says "all 6 ML models", but the PDF lists only
-> five model names and the supplied comparison table contains the same five.
-> This project therefore implements the five models explicitly named in the PDF.
-> Add a sixth model only if your instructor issues an official clarification.
+The dataset was divided into training and testing data using an **80:20 stratified train-test split** with a fixed random state for reproducibility.
 
-## Evaluation Metrics
+Standardization was applied where required, particularly for Logistic Regression, kNN and Gaussian Naive Bayes.
 
-For every model the following metrics are calculated:
+---
 
-- Accuracy
-- AUC
-- Precision
-- Recall
-- F1 Score
-- Matthews Correlation Coefficient (MCC)
+## 6. Evaluation Metrics
 
-For the multiclass Dry Bean problem:
+Each model was evaluated using the following metrics:
 
-- Precision, Recall and F1 use weighted averaging.
-- AUC uses weighted One-vs-Rest (OvR).
+* Accuracy
+* AUC Score
+* Precision
+* Recall
+* F1 Score
+* Matthews Correlation Coefficient (MCC)
 
-## Project Structure
+Since this is a multiclass classification problem:
+
+* Precision, Recall and F1 Score are calculated using **weighted averaging**.
+* AUC is calculated using the **weighted One-vs-Rest (OvR)** approach.
+
+---
+
+## 7. Model Comparison
+
+| ML Model Name       |   Accuracy |        AUC |  Precision |     Recall |         F1 |        MCC |
+| ------------------- | ---------: | ---------: | ---------: | ---------: | ---------: | ---------: |
+| Logistic Regression |     0.9207 | **0.9934** |     0.9215 |     0.9207 |     0.9209 |     0.9042 |
+| Decision Tree       |     0.8917 |     0.9330 |     0.8912 |     0.8917 |     0.8913 |     0.8691 |
+| kNN                 |     0.9166 |     0.9812 |     0.9174 |     0.9166 |     0.9168 |     0.8992 |
+| Naive Bayes         |     0.8979 |     0.9902 |     0.9007 |     0.8979 |     0.8981 |     0.8773 |
+| **Random Forest**   | **0.9232** |     0.9921 | **0.9233** | **0.9232** | **0.9232** | **0.9072** |
+
+---
+
+## 8. Model Performance Observations
+
+### Logistic Regression
+
+Logistic Regression achieved an accuracy of **92.07%** and obtained the highest AUC score of **0.9934** among the tested models.
+
+The model provided strong overall classification performance and showed very good class-separation capability.
+
+The confusion matrix showed excellent classification for some classes such as BOMBAY, while some confusion was observed between similar classes such as DERMASON and SIRA.
+
+---
+
+### Decision Tree
+
+Decision Tree achieved an accuracy of **89.17%**.
+
+It produced the lowest overall performance among the tested models in terms of Accuracy, AUC, F1 and MCC.
+
+A single decision tree may create highly specific decision boundaries based on the training data, which can reduce its ability to generalize compared with ensemble-based approaches.
+
+---
+
+### k-Nearest Neighbors
+
+kNN achieved an accuracy of **91.66%** with an F1 score of **0.9168**.
+
+The numerical features were standardized before applying kNN because distance-based algorithms are affected by differences in feature scales.
+
+The model performed competitively but remained slightly below Logistic Regression and Random Forest.
+
+---
+
+### Naive Bayes
+
+Gaussian Naive Bayes achieved an accuracy of **89.79%**.
+
+Although its classification accuracy was lower than Logistic Regression, kNN and Random Forest, it achieved a very high AUC score of **0.9902**.
+
+The model therefore showed good probability-based class-separation capability but was comparatively weaker in final class prediction.
+
+---
+
+### Random Forest
+
+Random Forest achieved the best overall performance among the tested models.
+
+It obtained:
+
+* **Accuracy:** 0.9232
+* **Precision:** 0.9233
+* **Recall:** 0.9232
+* **F1 Score:** 0.9232
+* **MCC:** 0.9072
+* **AUC:** 0.9921
+
+Random Forest combines the predictions of multiple decision trees, which helps improve generalization and reduces the weaknesses associated with using a single decision tree.
+
+---
+
+## 9. Overall Winner
+
+### 🏆 Random Forest
+
+**Random Forest was selected as the overall best-performing model for the Dry Bean dataset.**
+
+It achieved the highest:
+
+* Accuracy
+* Precision
+* Recall
+* F1 Score
+* MCC Score
+
+Although Logistic Regression achieved a slightly higher AUC score, Random Forest performed better across most of the required evaluation metrics and was therefore selected as the overall winner.
+
+---
+
+## 10. Streamlit Application Features
+
+The Streamlit application provides an interactive interface for testing the trained machine learning models.
+
+### Features
+
+* Test-data CSV upload
+* Machine learning model selection
+* Dataset preview
+* Prediction generation
+* Actual vs predicted class comparison
+* Accuracy display
+* AUC display
+* Precision display
+* Recall display
+* F1 Score display
+* MCC Score display
+* Confusion matrix
+* Classification report
+* All-model comparison table
+* Best-model identification
+* Model-performance comparison graph
+* Prediction CSV download
+
+---
+
+## 11. Project Structure
 
 ```text
-ML_Assignment_2_DryBean/
+ml-assignment-2-dry-bean-classification/
 │
 ├── app.py
 ├── ml_utils.py
 ├── requirements.txt
 ├── README.md
-├── test_data.csv                 # generated after training
-├── model_comparison.csv          # generated after training
+├── test_data.csv
+├── model_comparison.csv
 ├── ML_Assignment_2.ipynb
+├── PROJECT_NOTES.txt
+├── run_train.bat
+├── run_streamlit.bat
 │
 ├── data/
-│   └── Dry_Bean_Dataset.csv      # generated/downloaded or manually placed
+│   └── Dry_Bean_Dataset.csv
 │
 └── model/
-    ├── __init__.py
     ├── train_models.py
-    ├── logistic_regression.pkl   # generated
-    ├── decision_tree.pkl         # generated
-    ├── knn.pkl                   # generated
-    ├── naive_bayes.pkl           # generated
-    ├── random_forest.pkl         # generated
-    └── label_encoder.pkl         # generated
+    ├── logistic_regression.pkl
+    ├── decision_tree.pkl
+    ├── knn.pkl
+    ├── naive_bayes.pkl
+    ├── random_forest.pkl
+    └── label_encoder.pkl
 ```
 
-## Local Setup
+---
 
-### 1. Create a virtual environment
+## 12. Installation and Local Execution
 
-Windows:
+### Clone the Repository
+
+```bash
+git clone https://github.com/2025ac05244-KiranKumarL/ml-assignment-2-dry-bean-classification.git
+```
+
+Move into the project directory:
+
+```bash
+cd ml-assignment-2-dry-bean-classification
+```
+
+### Create Virtual Environment
 
 ```bash
 python -m venv venv
+```
+
+For Windows:
+
+```bash
 venv\Scripts\activate
 ```
 
-Linux/macOS:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 2. Install dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Train all models
+### Train the Models
 
 ```bash
 python model/train_models.py
 ```
 
-This command will:
+The training process generates:
 
-- load/fetch the dataset,
-- create an 80/20 stratified split,
-- train all five models,
-- calculate all six required metrics,
-- save the model files,
-- create `test_data.csv`,
-- create `model_comparison.csv`.
+* Trained model files
+* Label encoder
+* `test_data.csv`
+* `model_comparison.csv`
 
-### 4. Start the Streamlit application
+### Run the Streamlit Application
 
 ```bash
 streamlit run app.py
 ```
 
-Then open the local Streamlit URL shown in your terminal.
+The application will normally be available locally at:
 
-## Streamlit Features
+```text
+http://localhost:8501
+```
 
-The app includes:
+---
 
-- CSV test-data upload
-- Model-selection dropdown
-- Predictions
-- Accuracy
-- AUC
-- Precision
-- Recall
-- F1
-- MCC
-- Confusion matrix
-- Classification report
-- All-model comparison table
-- Prediction CSV download
+## 13. Deployment
 
-## GitHub Repository Link
+The application is deployed using **Streamlit Community Cloud**.
 
-Add your GitHub repository URL here after uploading the project.
+Repository branch:
 
-`YOUR_GITHUB_REPOSITORY_LINK`
+```text
+main
+```
 
-## Live Streamlit App Link
+Main application file:
 
-Add your Streamlit Community Cloud URL here after deployment.
+```text
+app.py
+```
 
-`YOUR_STREAMLIT_APP_LINK`
+Live Application:
 
-## Model Comparison Table
+https://ml-assignment-2-dry-bean-classification-c66mk3zrpsb8uutdzs8urk.streamlit.app/
 
-Run `python model/train_models.py` and copy the values from
-`model_comparison.csv` into this section before final submission.
+---
 
-| ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
-|---|---:|---:|---:|---:|---:|---:|
-| Logistic Regression | | | | | | |
-| Decision Tree | | | | | | |
-| kNN | | | | | | |
-| Naive Bayes | | | | | | |
-| Random Forest (Ensemble) | | | | | | |
+## 14. Conclusion
 
-## Model Performance Observations
+Five machine learning classification algorithms were implemented and compared using the Dry Bean dataset.
 
-Fill this section after running the models on BITS Virtual Lab. The observations
-must be based on your actual metric values rather than generic statements.
+All models produced reasonable classification performance, with Logistic Regression, kNN and Random Forest providing particularly strong results.
 
-| ML Model Name | Observation about model performance |
-|---|---|
-| Logistic Regression | |
-| Decision Tree | |
-| kNN | |
-| Naive Bayes | |
-| Random Forest (Ensemble) | |
-| Overall Winner for your dataset? | |
+Random Forest achieved the strongest overall performance, reaching approximately **92.32% classification accuracy** and the highest F1 and MCC values among the tested models.
 
-## BITS Virtual Lab Screenshot
-
-Perform the assignment on the BITS Virtual Lab and insert the required execution
-screenshot into the final submitted PDF.
+The completed Streamlit application demonstrates the models interactively and provides model selection, predictions, evaluation metrics, confusion matrices, classification reports and model-performance comparison.
